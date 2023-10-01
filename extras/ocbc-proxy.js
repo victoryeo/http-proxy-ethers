@@ -10,7 +10,7 @@ const { HttpsProxyAgent } = require("https-proxy-agent");
 const http = require("node:http");
 const { createProxy } = require("proxy");
 const express = require("express");
-const StorageContract = require("./abi/Storage.json");
+const StorageContract = require("../abi/Storage.json");
 
 const API_GW_ETH_RPC = "https://ocbc.tokenmint.eu/rpc/mumbai";
 
