@@ -30,8 +30,8 @@ const server = http.createServer((req, res) => {
   proxy.web(req, res, {
     changeOrigin: true,
     secure: false,
-    target: "http://localhost:3000"
-  //target: "https://ocbc.tokenmint.eu/rpc/mumbai", //the target server's URL
+  //  target: "http://localhost:3000"
+    target: "https://ocbc.tokenmint.eu/rpc/mumbai", //the target server's URL
   });
 
   /*res.writeHead(200, { 'Content-Type': 'text/plain' });
