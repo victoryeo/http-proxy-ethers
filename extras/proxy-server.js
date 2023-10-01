@@ -16,7 +16,7 @@ proxy.on("error", (err, req, res) => {
 proxy.on("proxyReq", function(proxyReq, req, res, options) {
   console.log(
     `Proxy connection from ${
-      socket.remoteAddress
+      req.socket.remoteAddress
     } with url: ${JSON.stringify(req.url)}`
   );
   proxyReq.setHeader('X-Special-Proxy-Header', 'ocbc');
@@ -30,13 +30,14 @@ const server = http.createServer((req, res) => {
   proxy.web(req, res, {
     changeOrigin: true,
     secure: false,
-    target: "https://ocbc.tokenmint.eu/rpc/mumbai", // Replace with the target server's URL
+    target: "http://localhost:3000"
+  //target: "https://ocbc.tokenmint.eu/rpc/mumbai", //the target server's URL
   });
 
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  /*res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.write('request successfully proxied!' + '\n' + 
     JSON.stringify(req.headers, true, 2));
-  res.end();
+  res.end();*/
 });
 
 // Set the proxy server to listen on a specific port
