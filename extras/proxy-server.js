@@ -19,7 +19,7 @@ proxy.on("proxyReq", function(proxyReq, req, res, options) {
       req.socket.remoteAddress
     } with url: ${JSON.stringify(req.url)}`
   );
-  proxyReq.setHeader('X-Special-Proxy-Header', 'ocbc');
+  //proxyReq.setHeader('X-Special-Proxy-Header', 'ocbc');
 });
 
 // Create a target HTTP server
@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
   proxy.web(req, res, {
     changeOrigin: true,
     secure: false,
-  //  target: "http://localhost:3000"
+  //  target: "http://localhost:4000"
     target: "https://ocbc.tokenmint.eu/rpc/mumbai", //the target server's URL
   });
 
@@ -54,3 +54,15 @@ server.on("connect", (res, socket) => {
     } with headers: ${JSON.stringify(res.rawHeaders)}`
   );
 });
+
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.get('/blocknumber', (req, res) => {
+  res.send('Hello blocknumber!')
+})
+
+app.listen(4000);
