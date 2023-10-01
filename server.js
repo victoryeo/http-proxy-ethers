@@ -7,6 +7,8 @@ const {
   ContractFactory,
   Wallet,
 } = require("ethers");
+fetch = require('cross-fetch');
+
 const StorageContract = require("./abi/Storage.json");
 
 const ETH_RPC = "https://ocbc.tokenmint.eu/rpc/mumbai";
@@ -35,7 +37,7 @@ const getUrl = async (req, _signal) => {
     signal,
   };
 
-  // This is what we want
+  // This is what we want, use HTTP PROXY
   init.agent = new HttpsProxyAgent(HTTP_PROXY);
 
   // Inherited from https://github.com/ethers-io/ethers.js/blob/main/src.ts/utils/geturl-browser.ts
@@ -58,9 +60,6 @@ const getUrl = async (req, _signal) => {
 };
 
 FetchRequest.registerGetUrl(getUrl);
-const provider = new JsonRpcProvider(ETH_RPC);
-
-sleep(2).then(() => provider.getBlockNumber().then(console.log));
 
 const app = express();
 const port = 3000;
@@ -68,8 +67,8 @@ const port = 3000;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  console.log("console req", req);
-  res.send("Hello, World!");
+  console.log("http ver", req.httpVersion);
+  res.send("Hello, World!\n");
 });
 
 app.get("/deploy", async (req, res) => {
