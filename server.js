@@ -71,6 +71,13 @@ app.get("/", (req, res) => {
   res.send("Hello, World!\n");
 });
 
+app.get("/blocknumber", async (req, res) => {
+  const provider = await new JsonRpcProvider(ETH_RPC);
+  const blocknumber = await provider.getBlockNumber()
+  console.log("Block number", blocknumber);
+  res.json({ message: blocknumber });
+})
+
 app.get("/deploy", async (req, res) => {
   try {
     console.log("console inside /deploy");
