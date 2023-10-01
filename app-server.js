@@ -1,17 +1,22 @@
 const express = require("express");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 const {
-  ethers,
   JsonRpcProvider,
   FetchRequest,
   ContractFactory,
   Wallet,
 } = require("ethers");
 fetch = require('cross-fetch');
-
+const { SocksProxyAgent } = require('socks-proxy-agent');
+const tunnel = require('tunnel');
 const StorageContract = require("./abi/Storage.json");
 
 const ETH_RPC = "https://ocbc.tokenmint.eu/rpc/mumbai";
+// Tor browser user agent
+const torBrowserAgent = 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0';
+// Default tor port for Tor Browser
+const torPort = 9150;
+
 const HTTP_PROXY_PORT = 8080;
 const HTTP_PROXY_HOST = "localhost";
 const HTTP_PROXY = `http://${HTTP_PROXY_HOST}:${HTTP_PROXY_PORT}`;
@@ -72,9 +77,25 @@ app.get("/", (req, res) => {
 });
 
 app.get("/blocknumber", async (req, res) => {
-  const provider = await new JsonRpcProvider(ETH_RPC);
-  const blocknumber = await provider.getBlockNumber()
-  console.log("Block number", blocknumber);
+  const ethersOptions = {
+    url: ETH_RPC,
+    headers: { 'User-Agent': torBrowserAgent },
+    agent: {
+      https: tunnel.httpsOverHttp({
+        proxy: {
+          host: 'localhost',
+          port: 80,
+        },
+      }),
+    }
+  }
+  const provider = new JsonRpcProvider(ethersOptions);
+  const [ blockNumber, getBlock ] = await Promise.all([
+    provider.getBlockNumber(),
+    provider.getBlock('latest')
+  ]);  
+  console.log("Block number", blockNumber);
+  console.log(getBlock);
   res.json({ message: blocknumber });
 })
 
