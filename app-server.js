@@ -64,7 +64,7 @@ const getUrl = async (req, _signal) => {
   };
 };
 
-FetchRequest.registerGetUrl(getUrl);
+//FetchRequest.registerGetUrl(getUrl);
 
 const app = express();
 const port = 3000;
@@ -77,33 +77,25 @@ app.get("/", (req, res) => {
 });
 
 app.get("/blocknumber", async (req, res) => {
-  const ethersOptions = {
-    url: ETH_RPC,
-    headers: { 'User-Agent': torBrowserAgent },
-    agent: {
-      https: tunnel.httpsOverHttp({
-        proxy: {
-          host: 'localhost',
-          port: 80,
-        },
-      }),
-    }
-  }
-  const provider = new JsonRpcProvider(ethersOptions);
+  
+  const provider = new JsonRpcProvider(
+    ETH_RPC, 80001
+  );
+  console.log("console provider", provider)
   const [ blockNumber, getBlock ] = await Promise.all([
     provider.getBlockNumber(),
     provider.getBlock('latest')
   ]);  
   console.log("Block number", blockNumber);
   console.log(getBlock);
-  res.json({ message: blocknumber });
+  res.json({ blockNumber: blockNumber });
 })
 
 app.get("/deploy", async (req, res) => {
   try {
     console.log("console inside /deploy");
-    const provider = await new JsonRpcProvider(ETH_RPC);
-    console.log("console provider", await provider.getBlockNumber());
+    const provider = new JsonRpcProvider(ETH_RPC);
+    //console.log("console provider", await provider.getBlockNumber());
     const wallet = new Wallet(
       "0e895bd8dcb30ef51bfb93338fc19dc482dc8efadf7d1a979c1be5f70e9b96b7",
       provider
