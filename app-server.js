@@ -66,6 +66,11 @@ const getUrl = async (req, _signal) => {
 
 //FetchRequest.registerGetUrl(getUrl);
 
+const fetchReq = new FetchRequest(ETH_RPC);
+fetchReq.agent = new HttpsProxyAgent(HTTP_PROXY);
+const provider = new JsonRpcProvider(fetchReq);
+provider.getBlockNumber().then(console.log)
+
 const app = express();
 const port = 3000;
 
