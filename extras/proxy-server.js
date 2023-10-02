@@ -30,14 +30,9 @@ const server = http.createServer((req, res) => {
   proxy.web(req, res, {
     changeOrigin: true,
     secure: false,
-  //  target: "http://localhost:4000"
-    target: "https://ocbc.tokenmint.eu/rpc/mumbai", //the target server's URL
+    target: "http://localhost:9008"
+  //  target: "https://ocbc.tokenmint.eu/rpc/mumbai", //the target server's URL
   });
-
-  /*res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('request successfully proxied!' + '\n' + 
-    JSON.stringify(req.headers, true, 2));
-  res.end();*/
 });
 
 // Set the proxy server to listen on a specific port
@@ -56,14 +51,9 @@ server.on("connect", (req, socket, head) => {
   );
 });
 
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.get('/blocknumber', (req, res) => {
-  res.send('Hello blocknumber!')
-})
-
-app.listen(4000);
+// target server
+http.createServer(function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.write('request successfully proxied to: ' + req.url + '\n' + JSON.stringify(req.headers, true, 2));
+  res.end();
+}).listen(9008);
