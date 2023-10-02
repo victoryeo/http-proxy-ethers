@@ -66,6 +66,9 @@ const getUrl = async (req, _signal) => {
 };
 
 FetchRequest.registerGetUrl(getUrl);
+//const provider = new JsonRpcProvider(ETH_RPC);
+//sleep(2).then(() => provider.getBlockNumber().then(console.log));
+
 /*
 const fetchReq = new FetchRequest(ETH_RPC);
 fetchReq.agent = new HttpsProxyAgent(HTTP_PROXY);
