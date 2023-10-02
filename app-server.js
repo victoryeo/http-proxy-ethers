@@ -102,10 +102,6 @@ app.get("/blocknumber", async (req, res) => {
 
 app.post("/google", async (req, res) => {
   
-  const provider = new JsonRpcProvider(
-    ETH_RPC, 80001
-  );
-  console.log("console provider", provider)
   console.log("request body", req.body)
 
   let options = {
