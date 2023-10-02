@@ -5,6 +5,7 @@ calls localhost app server endpoint, it will forward to http proxy that calls ta
 
 #### steps
 node extras/proxy-server.js  
-node server.js  
+node app-server.js  
+curl -X GET http://localhost:3000/blocknumber    
 curl -X GET http://localhost:3000/deploy  
 
