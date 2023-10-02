@@ -1,7 +1,8 @@
 ## idea
 run a http proxy server  
-run an localhost app server 
-calls localhost app server endpoint, it will forward to http proxy that calls target server to deploy a smart contract
+run an localhost app server  
+calls localhost app server endpoint,   
+it will forward to http proxy that calls target server to deploy a smart contract
 
 #### steps
 node extras/proxy-server.js  
