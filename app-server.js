@@ -116,7 +116,7 @@ app.get("/deploy", async (req, res) => {
     console.log("console contract", contract.target);
     await contract.deployTransaction;
 
-    res.json({ message: "This is your API response." });
+    res.json({ contract_address: contract.target });
   } catch (err) {
     console.log("console err", err);
   }
