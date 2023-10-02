@@ -6,7 +6,7 @@ const {
   ContractFactory,
   Wallet,
 } = require("ethers");
-fetch = require('cross-fetch');
+const fetch = require('cross-fetch');
 const { SocksProxyAgent } = require('socks-proxy-agent');
 const tunnel = require('tunnel');
 const StorageContract = require("./abi/Storage.json");
@@ -54,7 +54,7 @@ const getUrl = async (req, _signal) => {
   });
 
   const respBody = await resp.arrayBuffer();
-  const body = respBody == null ? null : new Uint8Array(respBody);
+  const body = (respBody == null) ? null: new Uint8Array(respBody);
 
   return {
     statusCode: resp.status,
