@@ -10,6 +10,7 @@ const fetch = require('cross-fetch');
 const { SocksProxyAgent } = require('socks-proxy-agent');
 const tunnel = require('tunnel');
 const StorageContract = require("./abi/Storage.json");
+const http = require('http');
 
 const ETH_RPC = "https://ocbc.tokenmint.eu/rpc/mumbai";
 // Tor browser user agent
@@ -64,12 +65,12 @@ const getUrl = async (req, _signal) => {
   };
 };
 
-//FetchRequest.registerGetUrl(getUrl);
-
+FetchRequest.registerGetUrl(getUrl);
+/*
 const fetchReq = new FetchRequest(ETH_RPC);
 fetchReq.agent = new HttpsProxyAgent(HTTP_PROXY);
 const provider = new JsonRpcProvider(fetchReq);
-provider.getBlockNumber().then(console.log)
+provider.getBlockNumber().then(console.log) */
 
 const app = express();
 const port = 3000;
@@ -94,6 +95,30 @@ app.get("/blocknumber", async (req, res) => {
   console.log("Block number", blockNumber);
   console.log(getBlock);
   res.json({ blockNumber: blockNumber });
+})
+
+app.post("/google", async (req, res) => {
+  
+  const provider = new JsonRpcProvider(
+    ETH_RPC, 80001
+  );
+  console.log("console provider", provider)
+  console.log("request body", req.body)
+
+  let options = {
+    host: HTTP_PROXY_HOST,
+    port: 8080,
+    path: "http://www.google.com",
+    headers: {
+      Host: "www.google.com"
+    }
+  };
+  let result;
+  http.get(options, (msg) => {
+    console.log(msg.httpVersion);
+    result = msg.httpVersion
+    res.json({ message: result })
+  });
 })
 
 app.get("/deploy", async (req, res) => {

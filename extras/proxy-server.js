@@ -46,12 +46,13 @@ server.listen(PORT, () => {
   console.log(`Proxy server is running on port ${PORT}`);
 });
 
-server.on("connect", (res, socket) => {
+server.on("connect", (req, socket, head) => {
   // This is where you could find out that ethers provider will connect RPC via proxy agent
+  console.log(`${JSON.stringify(req.url)}`)
   console.log(
     `Proxy connection from ${
       socket.remoteAddress
-    } with headers: ${JSON.stringify(res.rawHeaders)}`
+    } with headers: ${JSON.stringify(req.rawHeaders)}`
   );
 });
 
