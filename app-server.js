@@ -18,7 +18,7 @@ const torBrowserAgent = 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 F
 // Default tor port for Tor Browser
 const torPort = 9150;
 
-const HTTP_PROXY_PORT = 8080;
+const HTTP_PROXY_PORT = 8082;
 const HTTP_PROXY_HOST = "localhost";
 const HTTP_PROXY = `http://${HTTP_PROXY_HOST}:${HTTP_PROXY_PORT}`;
 console.log("console HTTP_PROXY", HTTP_PROXY);
@@ -88,9 +88,11 @@ app.get("/", (req, res) => {
 app.get("/blocknumber", async (req, res) => {
   
   const provider = new JsonRpcProvider(
-    ETH_RPC, 80001
+    ETH_RPC, 80001 //chainID
   );
   console.log("console provider", provider)
+  const fees = await provider.getFeeData();
+  console.log("console fees", fees);
   const [ blockNumber, getBlock ] = await Promise.all([
     provider.getBlockNumber(),
     provider.getBlock('latest')
@@ -106,7 +108,7 @@ app.post("/google", async (req, res) => {
 
   let options = {
     host: HTTP_PROXY_HOST,
-    port: 8080,
+    port: 8082,
     path: "http://www.google.com",
     headers: {
       Host: "www.google.com"
