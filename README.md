@@ -1,7 +1,13 @@
-## idea
+## problem
+ethersjs v6.7 does not support http proxy, we want to add http agent for fetch to support proxy  
+  
+see:
+https://github.com/ethers-io/ethers.js/pull/4337#issuecomment-1712444903
+
+## fix
 run a http proxy server  
 run an localhost app server  
-calls localhost app server endpoint,   
+call localhost app server endpoint,   
 it will forward to http proxy that calls target server to deploy a smart contract
 
 #### steps
